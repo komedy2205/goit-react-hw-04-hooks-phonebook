@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Contactform from './components/ContactForm/ContactForm';
-import ContactList from './components/ContactList/ContactList'
+// import ContactList from './components/ContactList/ContactList'
 import Filter from './components/Filter/Filter';
 import { nanoid } from 'nanoid';
 
@@ -47,16 +47,10 @@ export default function Phonebook() {
   };
 
   useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
-  useEffect(() => {
-    const contacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(contacts);
-    if (parsedContacts) {
-      this.setState({ contacts: parsedContacts })
+    if (localStorage.setItem('contacts', JSON.stringify(contacts)) > 0) {
+      setContact(localStorage.getItem('contacts', JSON.parse(contacts)));
     }
-  });
+  }, [contacts]);
 
   return (
     <>
@@ -70,10 +64,10 @@ export default function Phonebook() {
         onChange={changeFilter}
       />
         
-      <ContactList
+      {/* <ContactList
         option={realContacts}
         onDeleteContact={deleteContact}
-      />
+      /> */}
     </>
   );
 };
