@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-const ContactList = ({option, onDeleteContact}) => {
+export default function ContactList ({ option, onDeleteContact }) {
     
         return (
         <ul>
@@ -20,4 +20,3 @@ ContactList.propTypes = {
   onDeleteContact: PropTypes.func.isRequired,
 }
 
-export default ContactList
