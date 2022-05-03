@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import Contactform from './components/ContactForm/ContactForm';
-// import ContactList from './components/ContactList/ContactList'
+import ContactList from './components/ContactList/ContactList'
 import Filter from './components/Filter/Filter';
 import { nanoid } from 'nanoid';
 
 export default function Phonebook() {
-  const [contacts, setContact] = useState([]);
-  const [filter, setFilter] = useState('');
+  const [contacts, setContacts] = useState([]);
+  const [filter, setFiltered] = useState('');
 
   const addContact = (name, number) => {
     const contact = {
@@ -22,33 +22,29 @@ export default function Phonebook() {
       }
     }
     
-    setContact(prevState => [ ...prevState, contact]);
+    setContacts(prevState => [ ...prevState, contact]);
         
   };
    
+  const deleteContact = id => {
+    return setContacts(contacts => contacts.filter(contact => contact.id !== id),
+    );
+  };
+
   const formSubmitHandler = ({ name, number }) => {
     addContact(name, number);
   };
 
-  const realContacts = () => {
-    const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter),
-    );
-  };
+  const normalizedFilter = filter.toLowerCase();
+  const realContacts = contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
 
   const changeFilter = (e) => {
-    setFilter({ filter: e.currentTarget.value });
-  };
-
-  const deleteContact = (contactId) => {
-    setContact(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
-    }));
+    setFiltered(e.target.value);
   };
 
   useEffect(() => {
     if (localStorage.setItem('contacts', JSON.stringify(contacts)) > 0) {
-      setContact(localStorage.getItem('contacts', JSON.parse(contacts)));
+      setContacts(localStorage.getItem('contacts', JSON.parse(contacts)));
     }
   }, [contacts]);
 
@@ -64,10 +60,10 @@ export default function Phonebook() {
         onChange={changeFilter}
       />
         
-      {/* <ContactList
+      <ContactList
         option={realContacts}
         onDeleteContact={deleteContact}
-      /> */}
+      />
     </>
   );
 };
