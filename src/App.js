@@ -5,7 +5,12 @@ import Filter from './components/Filter/Filter';
 import { nanoid } from 'nanoid';
 
 export default function Phonebook() {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(() => {
+    
+  const saved = localStorage.getItem("contacts");
+  const initialValue = JSON.parse(saved);
+  return initialValue || "";
+});
   const [filter, setFiltered] = useState('');
 
   const addContact = (name, number) => {
@@ -43,9 +48,7 @@ export default function Phonebook() {
   };
 
   useEffect(() => {
-    if (localStorage.setItem('contacts', JSON.stringify(contacts)) > 0) {
-      setContacts(localStorage.getItem('contacts', JSON.parse(contacts)));
-    }
+    localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts]);
 
   return (
