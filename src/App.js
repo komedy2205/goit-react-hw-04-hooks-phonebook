@@ -9,7 +9,7 @@ export default function Phonebook() {
     
   const saved = localStorage.getItem("contacts");
   const initialValue = JSON.parse(saved);
-  return initialValue || "";
+  return initialValue ?? [];
 });
   const [filter, setFiltered] = useState('');
 
